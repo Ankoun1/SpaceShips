@@ -53,7 +53,7 @@
             int calculateLightMilesTraveled = 0;
             if(spaceShip.LightMilesTraveled <= milesTraveledTax)
             {
-                calculateLightMilesTraveled = spaceShip.LightMilesTraveled + +model.LightMilesTraveled;
+                calculateLightMilesTraveled = spaceShip.LightMilesTraveled + model.LightMilesTraveled;
             }
             else
             {
