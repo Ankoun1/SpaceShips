@@ -11,6 +11,7 @@
     using Services.SpaceShips;
     using Services.Users;
     using Services.Validators;
+    using Services.SpaceTransferFees;
 
     public class StartUp
     {
@@ -24,6 +25,7 @@
                       .Add<IValidator, Validators>()
                       .Add<IUserService, UserService>()
                       .Add<ISpaceShipService, SpaceShipService>()
+                      .Add<ISpaceTransferFeeService, SpaceTransferFeeService>()
                       .Add<SpaceShipsDbContext>()                  
                   )
                   .WithConfiguration<SpaceShipsDbContext>(context => context
