@@ -29,6 +29,8 @@
             public const short familyIncreasedTax = 100;
             public const short cargoReducedTax = 736;
             public const short familyReducedTax = 355;       
+            public const int milesTraveledTaxCargo = 1000;       
+            public const int milesTraveledTaxFamily = 1000;       
            
         }
     }                                   
