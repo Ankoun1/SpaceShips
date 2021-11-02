@@ -10,7 +10,7 @@
 
                     <div class="form-group ">
                         <ul class="list-group list-group-flush ">
-                            <li class="list-group-item text-right mt-2 text-success">•</li>
+                            <li class="list-group-item text-right mt-2 text-danger">▪</li>
                             <li class="list-group-item text-center ">SpaceShip Id : @spaceShip.Id</li>
                             <li class="list-group-item text-center ">Tax</li>
                             @foreach (var tax in spaceShip.Taxs)
@@ -19,7 +19,7 @@
                         }
                         <li class="list-group-item text-center ">Total : @spaceShip.TotalTax DVS</li>
                             <li>
-                                <a class="btn btn-block btn-primary text-white mb-3 " href="/SpaceShips/Update?id=@spaceShip.Id">Update</a>
+                                <a class="btn btn-block btn-outline-light text-dark mb-3 " href="/SpaceShips/Update?id=@spaceShip.Id">Update</a>
                             </li>
                         </ul>
 
