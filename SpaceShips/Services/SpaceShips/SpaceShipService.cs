@@ -50,9 +50,19 @@
                 milesTraveledTax = milesTraveledTaxFamily;
             }
 
+            int calculateLightMilesTraveled = 0;
+            if(spaceShip.LightMilesTraveled <= milesTraveledTax)
+            {
+                calculateLightMilesTraveled = spaceShip.LightMilesTraveled + +model.LightMilesTraveled;
+            }
+            else
+            {
+                calculateLightMilesTraveled = spaceShip.LightMilesTraveled % (spaceShip.LightMilesTraveled / milesTraveledTax * milesTraveledTax) + model.LightMilesTraveled;
+            }
+
             spaceShip.YearOfPurchase = spaceShip.YearOfTaxCalculation;
             spaceShip.YearOfTaxCalculation = model.YearOfTaxCalculation;
-            spaceShip.LightMilesTraveled = spaceShip.LightMilesTraveled % (spaceShip.LightMilesTraveled / milesTraveledTax * milesTraveledTax)  + model.LightMilesTraveled;
+            spaceShip.LightMilesTraveled = calculateLightMilesTraveled;
             this.data.SaveChanges();
 
             spaceTransferFeeService.AddTax(spaceShip.Id);
