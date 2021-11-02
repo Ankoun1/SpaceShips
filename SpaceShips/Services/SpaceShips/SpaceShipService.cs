@@ -41,7 +41,7 @@
             var spaceShip = data.SpaceShips.Find(spaceShipId);
             spaceShip.YearOfPurchase = spaceShip.YearOfTaxCalculation;
             spaceShip.YearOfTaxCalculation = model.YearOfTaxCalculation;
-            spaceShip.LightMilesTraveled = model.LightMilesTraveled;
+            spaceShip.LightMilesTraveled = spaceShip.LightMilesTraveled % (spaceShip.LightMilesTraveled / 1000 * 1000)  + model.LightMilesTraveled;
             this.data.SaveChanges();
 
             spaceTransferFeeService.AddTax(spaceShip.Id);
