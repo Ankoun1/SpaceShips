@@ -6,7 +6,7 @@
     using System.Linq;
     using System.Collections.Generic;    
     using Services.SpaceTransferFees;
-
+    using static Data.DataConstants.SpaceShipTax;
     public class SpaceShipService : ISpaceShipService
     {
         private readonly SpaceShipsDbContext data;
@@ -39,9 +39,20 @@
         public void UpdateSpaceShip(SpaceShipUpdateModel model, int spaceShipId)
         {
             var spaceShip = data.SpaceShips.Find(spaceShipId);
+
+            int milesTraveledTax = 0;
+            if (spaceShip.Type == "Cargo")
+            {               
+                milesTraveledTax = milesTraveledTaxCargo;
+            }
+            else
+            {                
+                milesTraveledTax = milesTraveledTaxFamily;
+            }
+
             spaceShip.YearOfPurchase = spaceShip.YearOfTaxCalculation;
             spaceShip.YearOfTaxCalculation = model.YearOfTaxCalculation;
-            spaceShip.LightMilesTraveled = spaceShip.LightMilesTraveled % (spaceShip.LightMilesTraveled / 1000 * 1000)  + model.LightMilesTraveled;
+            spaceShip.LightMilesTraveled = spaceShip.LightMilesTraveled % (spaceShip.LightMilesTraveled / milesTraveledTax * milesTraveledTax)  + model.LightMilesTraveled;
             this.data.SaveChanges();
 
             spaceTransferFeeService.AddTax(spaceShip.Id);
