@@ -4,17 +4,18 @@
     using Data;
     using Models.SpaceShips;
     using System.Linq;
-    using System.Collections.Generic;
-
-    using static Data.DataConstants.SpaceShipTax;
+    using System.Collections.Generic;    
+    using Services.SpaceTransferFees;
 
     public class SpaceShipService : ISpaceShipService
     {
         private readonly SpaceShipsDbContext data;
+        private readonly ISpaceTransferFeeService spaceTransferFeeService;
 
-        public SpaceShipService(SpaceShipsDbContext data)
+        public SpaceShipService(SpaceShipsDbContext data, ISpaceTransferFeeService spaceTransferFeeService)
         {
             this.data = data;
+            this.spaceTransferFeeService = spaceTransferFeeService;
         }
         
         public void CreateSpaceShip(SpaceShipRegisterModel model,string adminId)
@@ -32,7 +33,7 @@
            
             this.data.SaveChanges();
 
-            Tax(spaceShip.Id);
+            spaceTransferFeeService.AddTax(spaceShip.Id);
         }
 
         public void UpdateSpaceShip(SpaceShipUpdateModel model, int spaceShipId)
@@ -43,7 +44,7 @@
             spaceShip.LightMilesTraveled = model.LightMilesTraveled;
             this.data.SaveChanges();
 
-            Tax(spaceShip.Id);
+            spaceTransferFeeService.AddTax(spaceShip.Id);
         }
 
         public List<SpaceShipsListingViewModel> AllSpaceShips()
@@ -57,46 +58,7 @@
             }).ToList();
             
             return spaceShips;
-        }       
-
-        private void Tax(int id)
-        {
-            var spaceShip = data.SpaceShips.Where(x => x.Id == id).FirstOrDefault();                            
-                      
-            short initialFee = 0;
-            short increasedTax = 0;
-            short reducedTax = 0;
-            if (spaceShip.Type == "Cargo")
-            {
-                initialFee = cargoInitialFee;
-                increasedTax = cargoIncreasedTax;
-                reducedTax = cargoReducedTax;
-            }
-            else
-            {
-                initialFee = familyInitialFee;
-                increasedTax = familyIncreasedTax;
-                reducedTax = familyReducedTax;
-            }
-            var tax = (spaceShip.LightMilesTraveled / 1000) * increasedTax - (spaceShip.YearOfTaxCalculation - spaceShip.YearOfPurchase) * reducedTax;
-            if (!data.SpaceTransferFees.Any(x => x.SpaceShipId == id))
-            {
-                tax += initialFee;
-            }
-
-            if(tax < 0)
-            {
-                tax = 0;
-            }
-            var currentTax = new SpaceTransferFee
-            {
-                Fee = tax,
-                SpaceShipId = id
-            };
-
-            this.data.SpaceTransferFees.Add(currentTax);
-            this.data.SaveChanges();
-        }
-       
+        }      
+             
     }
 }
