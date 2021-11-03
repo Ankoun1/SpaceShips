@@ -5,29 +5,32 @@
                 <div class="page-header text-center">
                     <h2 id="tables">My Commits</h2>
                 </div>
+                
                 @foreach (var spaceShip in Model)
                 {
 
-                    <div class="form-group ">
-                        <ul class="list-group list-group-flush ">
-                            <li class="list-group-item text-right mt-2 text-danger">▪</li>
-                            <li class="list-group-item text-center ">SpaceShip Id : @spaceShip.Id</li>
-                            <li class="list-group-item text-center ">Tax</li>
-                            @foreach (var tax in spaceShip.Taxs)
-                            {
-                        <li class="list-group-item text-center ">@tax DVS</li>
-                        }
-                        <li class="list-group-item text-center ">Total : @spaceShip.TotalTax DVS</li>
-                            <li>
-                                <a class="btn btn-block btn-outline-light text-dark mb-3 " href="/SpaceShips/Update?id=@spaceShip.Id">Update</a>
-                            </li>
-                        </ul>
+    <div class="form-group ">
+        <ul class="list-group list-group-flush ">
+            <li class="list-group-item text-right mt-2 text-danger">▪</li>
+            <li class="list-group-item text-center ">SpaceShip Id : @spaceShip.Id</li>
+            <li class="list-group-item text-center ">StartYearSpace : @spaceShip.YearStartSpace</li>
+            <li class="list-group-item text-center ">PY/CY/Miles/Tax</li>
+            @foreach (var taxParam in spaceShip.ParamsTaxs)
+            {
+        <li class="list-group-item text-center ">@taxParam.YearOfPurchase / @taxParam.YearOfTaxCalculation / @taxParam.LightMilesTraveled / @taxParam.Fee DVS</li>
+            }
+            <li class="list-group-item text-center ">Total : @spaceShip.TotalTax DVS</li>
+            <li>
+                <a class="btn btn-block btn-outline-light text-dark mb-3 " href="/SpaceShips/Update?id=@spaceShip.Id">Update</a>
+            </li>
+        </ul>
 
-                    </div>
+    </div>
                 }
+                   
             </div>
-               
-            </div>
+
         </div>
     </div>
 </div>
+

@@ -25,9 +25,6 @@ namespace SpaceShips.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("LightMilesTraveled")
-                        .HasColumnType("int");
-
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasMaxLength(6)
@@ -37,10 +34,7 @@ namespace SpaceShips.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(40)");
 
-                    b.Property<int>("YearOfPurchase")
-                        .HasColumnType("int");
-
-                    b.Property<int>("YearOfTaxCalculation")
+                    b.Property<int>("YearStartSpace")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -60,7 +54,16 @@ namespace SpaceShips.Data.Migrations
                     b.Property<decimal>("Fee")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("LightMilesTraveled")
+                        .HasColumnType("int");
+
                     b.Property<int>("SpaceShipId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("YearOfPurchase")
+                        .HasColumnType("int");
+
+                    b.Property<int>("YearOfTaxCalculation")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

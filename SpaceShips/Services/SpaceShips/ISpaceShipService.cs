@@ -5,9 +5,7 @@
 
     public interface ISpaceShipService
     {
-        void CreateSpaceShip(SpaceShipRegisterModel model,string adminId);
-
-        void UpdateSpaceShip(SpaceShipUpdateModel model,int spaceShipId);
+        void CreateSpaceShip(SpaceShipRegisterModel model,string adminId);     
 
         List<SpaceShipsListingViewModel> AllSpaceShips();
     }

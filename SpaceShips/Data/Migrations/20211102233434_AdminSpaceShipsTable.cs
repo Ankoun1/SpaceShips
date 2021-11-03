@@ -2,7 +2,7 @@
 
 namespace SpaceShips.Data.Migrations
 {
-    public partial class UserSpaceShipsTables : Migration
+    public partial class AdminSpaceShipsTable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -26,9 +26,7 @@ namespace SpaceShips.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Type = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
-                    YearOfPurchase = table.Column<int>(type: "int", nullable: false),
-                    YearOfTaxCalculation = table.Column<int>(type: "int", nullable: false),
-                    LightMilesTraveled = table.Column<int>(type: "int", nullable: false),
+                    YearStartSpace = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(40)", nullable: false)
                 },
                 constraints: table =>
@@ -48,6 +46,9 @@ namespace SpaceShips.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    YearOfPurchase = table.Column<int>(type: "int", nullable: false),
+                    YearOfTaxCalculation = table.Column<int>(type: "int", nullable: false),
+                    LightMilesTraveled = table.Column<int>(type: "int", nullable: false),
                     Fee = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     SpaceShipId = table.Column<int>(type: "int", nullable: false)
                 },

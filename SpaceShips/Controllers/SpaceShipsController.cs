@@ -7,21 +7,24 @@
     using Services.Validators;
     using System.Linq;
     using Services.SpaceShips;
+    using Services.SpaceTransferFees;
 
     public class SpaceShipsController : Controller
     {
         private readonly IValidator validator;
         private readonly IUserService userService;
         private readonly ISpaceShipService spaceShipService;
+        private readonly ISpaceTransferFeeService spaceShipTaxService;
         
 
         public SpaceShipsController(
             IValidator validator,
-            IUserService userService, ISpaceShipService spaceShipService)
+            IUserService userService, ISpaceShipService spaceShipService, ISpaceTransferFeeService spaceShipTaxService)
         {
             this.validator = validator;
             this.userService = userService;            
             this.spaceShipService = spaceShipService;            
+            this.spaceShipTaxService = spaceShipTaxService;            
         }
 
         [Authorize]
@@ -81,8 +84,8 @@
             {
                 return Error(modelErrors);
             }
-            
-            spaceShipService.UpdateSpaceShip(spaceShip,id);
+
+            spaceShipTaxService.UpdateSpaceShipParamsTaxs(spaceShip,id);
             return Redirect("/SpaceShips/All");
         }
         

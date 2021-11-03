@@ -14,11 +14,7 @@
         [MaxLength(TypeMaxLength)]
         public string Type { get; init; }
        
-        public int YearOfPurchase { get; set; }        
-        
-        public int YearOfTaxCalculation { get; set; }
-      
-        public int LightMilesTraveled { get; set; }     
+        public int YearStartSpace { get; init; }                    
 
         [Required]
         public string UserId { get; init; }

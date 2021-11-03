@@ -7,6 +7,8 @@
     using System.Collections.Generic;    
     using Services.SpaceTransferFees;
     using static Data.DataConstants.SpaceShipTax;
+    using System.Text;
+
     public class SpaceShipService : ISpaceShipService
     {
         private readonly SpaceShipsDbContext data;
@@ -24,57 +26,26 @@
             var spaceShip = new SpaceShip
             {
                 Type = model.Type,
-                YearOfPurchase = model.YearOfPurchase,
-                YearOfTaxCalculation = model.YearOfTaxCalculation,
-                LightMilesTraveled = model.LightMilesTraveled,
+                YearStartSpace = model.YearOfPurchase,                
                 UserId = adminId
             };
             this.data.SpaceShips.Add(spaceShip);            
            
             this.data.SaveChanges();
 
-            spaceTransferFeeService.AddTax(spaceShip.Id);
+            spaceTransferFeeService.AddSpaceShipTax(spaceShip.Id, model.YearOfPurchase, model.YearOfTaxCalculation, model.LightMilesTraveled);
         }
-
-        public void UpdateSpaceShip(SpaceShipUpdateModel model, int spaceShipId)
-        {
-            var spaceShip = data.SpaceShips.Find(spaceShipId);
-
-            int milesTraveledTax = 0;
-            if (spaceShip.Type == "Cargo")
-            {               
-                milesTraveledTax = milesTraveledTaxCargo;
-            }
-            else
-            {                
-                milesTraveledTax = milesTraveledTaxFamily;
-            }
-
-            int calculateLightMilesTraveled = 0;
-            if(spaceShip.LightMilesTraveled <= milesTraveledTax)
-            {
-                calculateLightMilesTraveled = spaceShip.LightMilesTraveled + model.LightMilesTraveled;
-            }
-            else
-            {
-                calculateLightMilesTraveled = spaceShip.LightMilesTraveled % (spaceShip.LightMilesTraveled / milesTraveledTax * milesTraveledTax) + model.LightMilesTraveled;
-            }
-
-            spaceShip.YearOfPurchase = spaceShip.YearOfTaxCalculation;
-            spaceShip.YearOfTaxCalculation = model.YearOfTaxCalculation;
-            spaceShip.LightMilesTraveled = calculateLightMilesTraveled;
-            this.data.SaveChanges();
-
-            spaceTransferFeeService.AddTax(spaceShip.Id);
-        }
+       
 
         public List<SpaceShipsListingViewModel> AllSpaceShips()
         {
-         
+            StringBuilder  sb = new StringBuilder();
+
             var spaceShips = data.SpaceShips.Select(x => new SpaceShipsListingViewModel
             {
                 Id = x.Id,
-                Taxs = data.SpaceTransferFees.Where(y => y.SpaceShipId == x.Id).Select(x => x.Fee).ToList(),
+                YearStartSpace = x.YearStartSpace,
+                ParamsTaxs = data.SpaceTransferFees.Where(y => y.SpaceShipId == x.Id).ToList(),                             
                 TotalTax = data.SpaceTransferFees.Where(y => y.SpaceShipId == x.Id).Select(x => x.Fee).Sum()
             }).ToList();
             

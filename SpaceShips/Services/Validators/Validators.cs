@@ -93,7 +93,7 @@
         {
             var errors = new List<string>();
 
-            if (model.YearOfTaxCalculation < data.SpaceShips.Where(x => x.Id == id).Select(x => x.YearOfTaxCalculation).FirstOrDefault())
+            if (model.YearOfTaxCalculation < data.SpaceTransferFees.Where(x => x.SpaceShipId == id).OrderBy(x => x.Id).Select(x => x.YearOfTaxCalculation).LastOrDefault())
             {
                 errors.Add($"Year '{model.YearOfTaxCalculation}'.");
             }
